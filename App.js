@@ -1,21 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import axios from "axios";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isLoading: false,
+    };
+
+    this.loadWallpapers = this.loadWallpapers.bind(this);
+  }
+
+  loadWallpapers() {
+    axios
+      .get("")
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        console.log("request completed");
+      });
+  }
+
+  componentDidMount() {
+    this.loadWallpapers();
+  }
+
+  render() {
+    return this.state.isLoading ? (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "black",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="grey" />
+      </View>
+    ) : (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "black",
+        }}
+      ></View>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
